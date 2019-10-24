@@ -1,18 +1,56 @@
-var VueHeader = new Vue({
-	el:'#myHeader',
+
+var doorScreen = new Vue({
+	el:'#doorScreen',
 	data:{
-		navbar_item:["惡魔","技能","靈門","AR"]
+		screenVisible:0,
+	},
+	methods:{
+	}
+})
+var ARScreen = new Vue({
+	el:'#ARScreen',
+	data:{
+		screenVisible:0,
 	},
 	methods:{
 	}
 })
 
-var VueContent = new Vue({
+var VueHeader = new Vue({
+	el:'#myHeader',
+	data:{
+		navbar_item:{"惡魔":"demon","技能":"skill","靈門":"door","AR":"AR"}
+	},
+	methods:{
+		"showScreen":function(obj){ //顯示切換螢幕
+			if(obj == "demon"){
+				this.setScreenVisible(1,1,0,0,0)
+			}else if(obj == "skill"){
+				this.setScreenVisible(0,0,1,0,0)
+			}else if(obj == "door"){
+				this.setScreenVisible(0,0,0,1,0)
+			}else if(obj == "AR"){
+				this.setScreenVisible(0,0,0,0,1)
+			}
+
+		},
+		"setScreenVisible":function(){//設定每個螢幕的顯示數值 0或1(False或True)
+			demon_data.screenVisible = arguments[0];
+			VueSelection.screenVisible = arguments[1];
+			skillScreen.screenVisible = arguments[2];
+			doorScreen.screenVisible = arguments[3];
+			ARScreen.screenVisible = arguments[4];
+		}
+	}
+})
+
+var VueSelection = new Vue({
 	el:'#selection',
 	data:{
 		checkBox:{
 			margin:'0 15px',
 		},
+		screenVisible:1,
 		race:{
 			filterTagName:[],
 		},
@@ -77,12 +115,12 @@ var VueContent = new Vue({
 
 				demon_data.demonFilterList = demon_data.demon.filter(function(x){
 					return x.resistArray.some(function(v,i){
-						return VueContent.resist.filterTagName.includes(v) || 
-							   VueContent.resist.filterTagName.length == 0
+						return VueSelection.resist.filterTagName.includes(v) || 
+							   VueSelection.resist.filterTagName.length == 0
 					})
 				});
 				console.log(demon_data.demonFilterList.demonFilter);
-				console.log(VueContent.resist.filterTagName);
+				console.log(VueSelection.resist.filterTagName);
 
 
 			

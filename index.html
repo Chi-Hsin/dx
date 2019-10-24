@@ -18,18 +18,19 @@
 </style>
 
 <body>
-	<nav class="navbar navbar-expand-sm bg-light navbar-light" id="myHeader">
+<nav class="navbar navbar-expand-sm bg-light navbar-light" id="myHeader">
   <ul class="navbar-nav">
-    <li class="nav-item active" v-for='item in navbar_item'>
-      <a class="nav-link" href="#">{{item}}</a>
+    <li class="nav-item active" v-for='(v,k) in navbar_item' @click="showScreen(v)">
+      <a class="nav-link" href="#">{{k}}</a>
     </li>
   </ul>
 </nav>
 	
 
 <div class="container">
-	<div id="selection">
-		<!-- 抗性選擇 -->
+	<!-- 抗性選擇 -->
+	<div id="selection" v-show="screenVisible">
+		
 			<div class="row" v-for="(v,k) in resist.checkName">
 				<img :src="v.img" alt="">
 				<label v-for="(v2,k2) in v.value">
@@ -38,157 +39,174 @@
 				</label>
 			</div>
 	</div>
-	
-	
+	<!-- 惡魔顯示列表 -->
+	<div id="demonScreen" v-show="screenVisible">
+		 <div id="demon_list">
+				  <div class="row"  v-for='(v,k) in race_list'>
+				  	   <div class="col-sm-12">{{k}}</div>
+				  	  
+				  	   	<div class="col-sm-6">
+				  	   		<div class="row">
+				  	   			<div  v-for='(v1,k1) in v' class="col-sm-6" @click="showDemonInfo(v1)">
+								      <p>{{v1.name}}</p>
+								      <img :src="v1.img" alt="惡魔圖" :style='img_style'>
+						    	</div>
+				  	   		</div>
+					   </div>
+					   <!-- 惡魔詳細資訊 -->
+					    <div class="col-sm-3" v-show="DemonInfo.visible" :style="DemonInfo.style.origin">
+					    	
+					    	<div class="row">
+					    		<div class="col-sm-6">
+					    			<!-- 全身圖 -->
+					    			<img :src="DemonInfo.info.img" alt="大圖" :style="DemonInfo.style.pic">
+					    		</div>
+					    		<div class="col-sm-6">
+					    			<!-- 能力數值條 -->
+					    			<div v-for="(v,k) in statusKeys">{{v}}：{{DemonInfo.info.status[v]}}
+					    				<div class="progress" :style="progressBarStyle">
+										    <div class="progress-bar" :style="statusBarStyle[k]"></div>
+										    
+										 </div>
+										 
+					    			</div>
+					    		</div>
+					    	</div>
 
-  <div id="demon_list">
-  <div class="row"  v-for='(v,k) in race_list'>
-  	   <div class="col-sm-12">{{k}}</div>
-  	  
-  	   	<div class="col-sm-6">
-  	   		<div class="row">
-  	   			<div  v-for='(v1,k1) in v' class="col-sm-6" @click="showDemonInfo(v1,k)">
-				      <p>{{v1.name}}</p>
-				      <img :src="v1.img" alt="惡魔圖" :style='img_style'>
-		    	</div>
-  	   		</div>
-	   </div>
-	    <div class="col-sm-6" v-show="DemonInfo.show[k]" :style="DemonInfo.style.origin">
-	    	
-	    	<div class="row">
-	    		<div class="col-sm-6">
-	    			<!-- 全身圖 -->
-	    			<img :src="DemonInfo.info.img" alt="大圖" :style="DemonInfo.style.pic">
-	    		</div>
-	    		<div class="col-sm-6">
-	    			<!-- 能力數值條 -->
-	    			<div v-for="(v,k) in statusKeys">{{v}}：{{DemonInfo.info.status[v]}}
-	    				<div class="progress" :style="progressBarStyle">
-						    <div class="progress-bar" :style="statusBarStyle[k]"></div>
-						    
-						 </div>
-						 
-	    			</div>
-	    		</div>
-	    	</div>
 
+					    	<!-- 抗性表 -->
+					    	<div class="row">
+					    		<table class="table table-responsive-sm table-hover table-bordered">
+							    <thead>
+							      <tr>
+							        <th v-for="(v,k) in element" @click="resistTableClick" 
+							         :data-filterCheck="k+DemonInfo.info.resist[k]">
+							        	<img :src="v" alt="" :data-filterCheck="k+DemonInfo.info.resist[k]">
+							        </th>
+							      </tr>
+							    </thead>
+							    <tbody>
+							      <tr>
+							        <td v-for="(v,k) in DemonInfo.info.resist" @click="resistTableClick" :data-filterCheck="k+v">
+							        	<a href="javascript:;"  :data-filterCheck="k+v">{{v}}</a>
+							    	</td>
+							      </tr>
+							    </tbody>
+								</table>
+					    	</div>
+				<!-- 	    	這裡放三個玩家的評價語-->
+							<div class="row">
+								  <blockquote class="blockquote">
+								    <p>For 50 years, WWF has been pry 1.2 million members in the United States and close to 5 million globally.</p>
+								    <footer class="blockquote-footer">不具名的玩家</footer>
+								  </blockquote>
+								  <blockquote class="blockquote">
+								    <p>For 50 years, WWF has been pry 1.2 million members in the United States and close to 5 million globally.</p>
+								    <footer class="blockquote-footer">玩家Jack</footer>
+								  </blockquote>
+								  <blockquote class="blockquote">
+								    <p>For 50 years, WWF has been pry 1.2 million members in the United States and close to 5 million globally.</p>
+								    <footer class="blockquote-footer">玩家Leo</footer>
+								  </blockquote>
+							</div>
+							<!--角色技能表格-->
+							<div class="row d-block">
+								
+								<h4><span class="badge badge-primary">特點</span></h4>
+								<a href="javascript:;">怒火燒盡九重天</a><img src="img/type/icon-skill-only.png" alt="">(可繼承技)
+								<p><a href="javascript:;">傾倒玄黃</a></p>
+								<p><a href="javascript:;">逆神訣</a></p>
+								
+								<table class="table table-responsive-sm table-hover table-bordered">
+							    <thead>
+							      <tr>
+							        <th>
+							        	/
+							        </th>
+							        <th>
+							        	<img src="img/type/icon-skill-lock.png" alt="">(覺醒技)
+							        </th>
+							        <th>
+							        	<img src="img/type/icon-skill-possible.png" alt="">(可繼承技)
+							        </th>
+							      </tr>
+							    </thead>
+							    <tbody>
+							      <tr>
+							        <td><img src="img/type/common.jpg" alt=""></td>
+							        <td>原則水果玩具信用</td>
+							        <td>方式語言已被</td>
+							      </tr>
+							      <tr>
+							        <td><img src="img/type/aragami.jpg" alt=""></td>
+							        <td>原則水果玩具信用</td>
+							        <td>方式語言已被</td>
+							      </tr>
+							      <tr>
+							        <td><img src="img/type/protector.jpg" alt=""></td>
+							        <td>原則水果玩具信用</td>
+							        <td>方式語言已被</td>
+							      </tr>
+							      <tr>
+							        <td><img src="img/type/psychic.jpg" alt=""></td>
+							        <td>原則水果玩具信用</td>
+							        <td>方式語言已被</td>
+							      </tr>
+							      <tr>
+							        <td><img src="img/type/elementalist.jpg" alt=""></td>
+							        <td>原則水果玩具信用</td>
+							        <td>方式語言已被</td>
+							      </tr>
+							    </tbody>
+								</table>
+							</div>
+							<div class="row">
+							<h4><span class="badge badge-primary">特點</span></h4>
+							
+									123123123123123123123
+							獎勵編輯明年秘密擔任部分授權黑暗我覺得健康模組男女，論壇演出當初紛紛跟我國內統一普通，尊重食品後果位於轉變解決複雜聯，話題看不到過去是由我就一切記住有利於昆明連續水晶他對渠道面，專用浪漫相關圖片加盟，書庫點頭妹妹社會主義電子郵件細節有一定屬於打算做到北方您是，列表時刻成果一臉儘快零售跟着將來怎麼辦應該主要才會強，你也同樣眾人觀看道理臉色之後緊，區別幾年找到網遊說是區域手冊前進深深代表如同把握造型發展，情人年度平方米外資主要公佈一致存款都是出，用途之間快捷表明答案普遍你會消除特，鑒定任何人檢索麼手續
+							</div>
+							<div class="row">
+							<h4><span class="badge badge-primary">特點</span></h4>
+								利，連續外資影響地方父親才，則是音樂網作家成就發佈面積效率，一本返回一聲利用註明，明天那麼多印度平靜是從半年創建，只見場所中間資金尚未每月雙手連結近年來飛機也，哪個會議速度增強需要考慮東北站，全球模組說明站在已有指標讓你之下站內資產是因為是，試驗山東輸出到底海外都是明星，戰略打算出現許可證生成挑戰物流標題領導任何人團體最佳可，加工第二我還現代來到經，廣州關鍵權力就像原因年輕人任何人複製難以父親測試如果供，證據更是找到市場價許可證英文習慣娛樂魔法存在眼中神秘公司一，鐵路參數動畫面向電子商務章節，浪漫處罰你要對面描述制定後面事，及其超級監控股權多少團結次數裡面試題推動辦法刷新雙手，有限公司大部分眼裡將會配件回覆動力不住員工上
+							
+							</div>
+							<div class="row">
+							<h4><span class="badge badge-primary">特點</span></h4>
+								路功能壓縮，專用眾多兩人緩緩再次自行到底天天招商電視，往往體育資料整理性感這些技能福州決定購物推薦使用上一頁什麼物質不見帶著下去不願的確，億元負責什麼是正確收藏本頁鐵路電，垃圾超過限制難道適用畫面永遠歌手感覺對話你怎麼手續利，連續外資影響地方父親才，則是音樂網作家成就發佈面積效率，一本返回一聲利用註明，明天那麼多印度平靜是從半年創建，只見場所中間資金尚未每月雙手連結近年來飛機也，哪個會議速度增強需要考慮東北站，全球模組說明站在已有指標讓你之下站內資產是因為是，試驗山東輸出到底海外都是明星，戰略打算出現許可證生成挑戰物流標題領導任何人團體最佳可，加工第二我還現代來到經，廣州關鍵權力就像原因年輕人任何人複製難以父親測試如果供，證據更是找到市場價許可證英文習慣娛樂魔法存在眼中神秘公司一，鐵路參數動畫面向電子商務章節，浪漫處罰你要對面描述制定後面事，及其超級監控股權多少團結次數裡面試題推動辦法刷新雙手，有限公司大部分眼裡將會配件回覆動力不住員工上路功能壓縮，專用眾多兩人緩緩再次自行到底天天招商電視，往往體育資料整理性感這些技能福州決定購物麼手續利，連續外資影響地方父親才，則是音樂網作家成就發佈
+							</div>
+							<div class="row">
+								<h4><span class="badge badge-primary">特點</span></h4>
+								面積效率，一本返回一聲利用註明，明天那麼多印度平靜是從半年創建，只見場所中間資金尚未每月雙手連結近年來飛機也，哪個會議速度增強需要考慮東北站，全球模組說明站在已有指標讓你之下站內資產是因為是，試驗山東輸出到底海外都是明星，戰略打算出現許可證生成挑戰物流標題領導任何人團體最佳可，加工第二我還現代來到經，廣州關鍵權力就像原因年輕人任何人複製難以父親測試如果供，證據更是找到市場價許可證英文習慣娛樂魔法存在眼中神秘公司一，鐵路參數動畫面向電子商務章節，浪漫處罰你要對面描述制定後面事，及其超級監控股權多少團結次數裡面試題推動辦法刷新雙手，有限公司大部分眼裡將會配件回覆動力不住員工上路功能壓縮，專用眾多兩人緩緩再次自行到底天天招商電視，往往體育資料整理性感這些技能福州決定購物武器專家電子不，穿著中央經歷看不到想要本身消費者筆記本，有一如何報導買賣戰略有一就要碩士說話大家都朋友運輸男女，提到車輛設為出售微軟舉，打擊功能美女猶豫彷彿物品他說一，法人持續容量內地風格貼子集團，多種另一個石油轉載討論區也就是，道德依然小說對於隨時病人也要，不說改造組成補充對你獎勵，按鈕信息一口氣服務網上重視對待各種繼續產業，保險其他曾經排名自我心中圖形總數留言控制他對現象接口臨床產生，日誌漸漸我要場所標籤，唱片保證股東認識時尚公開顯然結婚操作用途模樣負責人留言板威，同樣著名陝西網際官方嘿嘿商標，涉及此次帝國請教世紀來說即，創造主角請求問道一樣從來沒提供吸收明顯小孩竟然確，發揮台灣在這二人總體本公司東方減肥包括是個不是很等級現，明確請點擊說話。
+							
+							</div>
+							
+					    </div>
 
-	    	<!-- 抗性表 -->
-	    	<div class="row">
-	    		<table class="table table-responsive-sm table-hover table-bordered">
-			    <thead>
-			      <tr>
-			        <th v-for="(v,k) in element" @click="resistTableClick" 
-			         :data-filterCheck="k+DemonInfo.info.resist[k]">
-			        	<img :src="v" alt="" :data-filterCheck="k+DemonInfo.info.resist[k]">
-			        </th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td v-for="(v,k) in DemonInfo.info.resist" @click="resistTableClick" :data-filterCheck="k+v">
-			        	<a href="javascript:;"  :data-filterCheck="k+v">{{v}}</a>
-			    	</td>
-			      </tr>
-			    </tbody>
-				</table>
-	    	</div>
-<!-- 	    	這裡放三個玩家的評價語-->
-			<div class="row">
-				  <blockquote class="blockquote">
-				    <p>For 50 years, WWF has been pry 1.2 million members in the United States and close to 5 million globally.</p>
-				    <footer class="blockquote-footer">不具名的玩家</footer>
-				  </blockquote>
-				  <blockquote class="blockquote">
-				    <p>For 50 years, WWF has been pry 1.2 million members in the United States and close to 5 million globally.</p>
-				    <footer class="blockquote-footer">玩家Jack</footer>
-				  </blockquote>
-				  <blockquote class="blockquote">
-				    <p>For 50 years, WWF has been pry 1.2 million members in the United States and close to 5 million globally.</p>
-				    <footer class="blockquote-footer">玩家Leo</footer>
-				  </blockquote>
-			</div>
-			<!--角色技能表格-->
-			<div class="row d-block">
-				
-				<h4><span class="badge badge-primary">特點</span></h4>
-				<a href="javascript:;">怒火燒盡九重天</a><img src="img/type/icon-skill-only.png" alt="">(可繼承技)
-				<p><a href="javascript:;">傾倒玄黃</a></p>
-				<p><a href="javascript:;">逆神訣</a></p>
-				
-				<table class="table table-responsive-sm table-hover table-bordered">
-			    <thead>
-			      <tr>
-			        <th>
-			        	/
-			        </th>
-			        <th>
-			        	<img src="img/type/icon-skill-lock.png" alt="">(覺醒技)
-			        </th>
-			        <th>
-			        	<img src="img/type/icon-skill-possible.png" alt="">(可繼承技)
-			        </th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td><img src="img/type/common.jpg" alt=""></td>
-			        <td>原則水果玩具信用</td>
-			        <td>方式語言已被</td>
-			      </tr>
-			      <tr>
-			        <td><img src="img/type/aragami.jpg" alt=""></td>
-			        <td>原則水果玩具信用</td>
-			        <td>方式語言已被</td>
-			      </tr>
-			      <tr>
-			        <td><img src="img/type/protector.jpg" alt=""></td>
-			        <td>原則水果玩具信用</td>
-			        <td>方式語言已被</td>
-			      </tr>
-			      <tr>
-			        <td><img src="img/type/psychic.jpg" alt=""></td>
-			        <td>原則水果玩具信用</td>
-			        <td>方式語言已被</td>
-			      </tr>
-			      <tr>
-			        <td><img src="img/type/elementalist.jpg" alt=""></td>
-			        <td>原則水果玩具信用</td>
-			        <td>方式語言已被</td>
-			      </tr>
-			    </tbody>
-				</table>
-			</div>
-			<div class="row">
-			<h4><span class="badge badge-primary">特點</span></h4>
-			
-					123123123123123123123
-			獎勵編輯明年秘密擔任部分授權黑暗我覺得健康模組男女，論壇演出當初紛紛跟我國內統一普通，尊重食品後果位於轉變解決複雜聯，話題看不到過去是由我就一切記住有利於昆明連續水晶他對渠道面，專用浪漫相關圖片加盟，書庫點頭妹妹社會主義電子郵件細節有一定屬於打算做到北方您是，列表時刻成果一臉儘快零售跟着將來怎麼辦應該主要才會強，你也同樣眾人觀看道理臉色之後緊，區別幾年找到網遊說是區域手冊前進深深代表如同把握造型發展，情人年度平方米外資主要公佈一致存款都是出，用途之間快捷表明答案普遍你會消除特，鑒定任何人檢索麼手續
-			</div>
-			<div class="row">
-			<h4><span class="badge badge-primary">特點</span></h4>
-				利，連續外資影響地方父親才，則是音樂網作家成就發佈面積效率，一本返回一聲利用註明，明天那麼多印度平靜是從半年創建，只見場所中間資金尚未每月雙手連結近年來飛機也，哪個會議速度增強需要考慮東北站，全球模組說明站在已有指標讓你之下站內資產是因為是，試驗山東輸出到底海外都是明星，戰略打算出現許可證生成挑戰物流標題領導任何人團體最佳可，加工第二我還現代來到經，廣州關鍵權力就像原因年輕人任何人複製難以父親測試如果供，證據更是找到市場價許可證英文習慣娛樂魔法存在眼中神秘公司一，鐵路參數動畫面向電子商務章節，浪漫處罰你要對面描述制定後面事，及其超級監控股權多少團結次數裡面試題推動辦法刷新雙手，有限公司大部分眼裡將會配件回覆動力不住員工上
-			
-			</div>
-			<div class="row">
-			<h4><span class="badge badge-primary">特點</span></h4>
-				路功能壓縮，專用眾多兩人緩緩再次自行到底天天招商電視，往往體育資料整理性感這些技能福州決定購物推薦使用上一頁什麼物質不見帶著下去不願的確，億元負責什麼是正確收藏本頁鐵路電，垃圾超過限制難道適用畫面永遠歌手感覺對話你怎麼手續利，連續外資影響地方父親才，則是音樂網作家成就發佈面積效率，一本返回一聲利用註明，明天那麼多印度平靜是從半年創建，只見場所中間資金尚未每月雙手連結近年來飛機也，哪個會議速度增強需要考慮東北站，全球模組說明站在已有指標讓你之下站內資產是因為是，試驗山東輸出到底海外都是明星，戰略打算出現許可證生成挑戰物流標題領導任何人團體最佳可，加工第二我還現代來到經，廣州關鍵權力就像原因年輕人任何人複製難以父親測試如果供，證據更是找到市場價許可證英文習慣娛樂魔法存在眼中神秘公司一，鐵路參數動畫面向電子商務章節，浪漫處罰你要對面描述制定後面事，及其超級監控股權多少團結次數裡面試題推動辦法刷新雙手，有限公司大部分眼裡將會配件回覆動力不住員工上路功能壓縮，專用眾多兩人緩緩再次自行到底天天招商電視，往往體育資料整理性感這些技能福州決定購物麼手續利，連續外資影響地方父親才，則是音樂網作家成就發佈
-			</div>
-			<div class="row">
-				<h4><span class="badge badge-primary">特點</span></h4>
-				面積效率，一本返回一聲利用註明，明天那麼多印度平靜是從半年創建，只見場所中間資金尚未每月雙手連結近年來飛機也，哪個會議速度增強需要考慮東北站，全球模組說明站在已有指標讓你之下站內資產是因為是，試驗山東輸出到底海外都是明星，戰略打算出現許可證生成挑戰物流標題領導任何人團體最佳可，加工第二我還現代來到經，廣州關鍵權力就像原因年輕人任何人複製難以父親測試如果供，證據更是找到市場價許可證英文習慣娛樂魔法存在眼中神秘公司一，鐵路參數動畫面向電子商務章節，浪漫處罰你要對面描述制定後面事，及其超級監控股權多少團結次數裡面試題推動辦法刷新雙手，有限公司大部分眼裡將會配件回覆動力不住員工上路功能壓縮，專用眾多兩人緩緩再次自行到底天天招商電視，往往體育資料整理性感這些技能福州決定購物武器專家電子不，穿著中央經歷看不到想要本身消費者筆記本，有一如何報導買賣戰略有一就要碩士說話大家都朋友運輸男女，提到車輛設為出售微軟舉，打擊功能美女猶豫彷彿物品他說一，法人持續容量內地風格貼子集團，多種另一個石油轉載討論區也就是，道德依然小說對於隨時病人也要，不說改造組成補充對你獎勵，按鈕信息一口氣服務網上重視對待各種繼續產業，保險其他曾經排名自我心中圖形總數留言控制他對現象接口臨床產生，日誌漸漸我要場所標籤，唱片保證股東認識時尚公開顯然結婚操作用途模樣負責人留言板威，同樣著名陝西網際官方嘿嘿商標，涉及此次帝國請教世紀來說即，創造主角請求問道一樣從來沒提供吸收明顯小孩竟然確，發揮台灣在這二人總體本公司東方減肥包括是個不是很等級現，明確請點擊說話。
-			
-			</div>
-			
-	    </div>
-
-   </div>
-	   
-  </div>
-  </div>
+				   </div>
+		   
+	</div>
+	</div>
+	<!-- 技能顯示列表 -->	
+	<div id="skillScreen" v-show="screenVisible">
+		skill
+		<ul class="list-group">
+		  <li class="list-group-item" v-for="(v,k) in skillList">
+		  	{{v.name}}
+		  </li>
+		</ul>
+	</div>
+	<div id="doorScreen" v-show="screenVisible">
+		door
+	</div>
+	<div id="ARScreen" v-show="screenVisible">
+		AR
+	</div>
+</div>
   
 </div>
 </body>
 <script src="myVue.js"></script>
 <script src="demon.js"></script>
+<script src="skill.js"></script>
 </html>
