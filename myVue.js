@@ -119,8 +119,8 @@ var VueSelection = new Vue({
 							   VueSelection.resist.filterTagName.length == 0
 					})
 				});
-				console.log(demon_data.demonFilterList.demonFilter);
-				console.log(VueSelection.resist.filterTagName);
+				// console.log(demon_data.demonFilterList.demonFilter);
+				// console.log(VueSelection.resist.filterTagName);
 
 
 			

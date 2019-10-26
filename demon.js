@@ -15,11 +15,22 @@ var demon_data = new Vue({
 					},
 			'visible':false,		
 			'style':{
-				'origin':{'height':'100%','overflow':'auto','position':'fixed','right':0,'top':'57px'},
+				'origin':{
+							'height':'100%',
+							'overflow':'auto',
+							'position':'fixed',
+							'right':0,
+							'top':'57px',
+						},
 				'pic':{
-						'width':'200px',
-						'height':'200px'
-					}
+					'width':'100%',
+					},
+				'bigPic':{
+					'margin':'auto',
+					},
+				'statAnal':{
+					'margin':'auto',
+				},		
 			}
 		},
 		progressBarStyle:{
@@ -35,6 +46,7 @@ var demon_data = new Vue({
 					"破":"img/element/light.jpg",
 					"咒":"img/element/dark.jpg"
 				},
+		allRace:["破壞神","大天使","女神"],
 		demon:[
 							{
 								"race":'破壞神',
@@ -52,6 +64,18 @@ var demon_data = new Vue({
 								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
 								'id':1,
 								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
+								'skill':{
+									//固有技
+									'origin':['虐殺者(可繼承)','大自在天','第三隻眼'],
+									//各原體技
+									'type':{
+										'common':["-"],
+										"aragami":["靈魂抽取","魔封無效"],
+										"protector":["迅捷演舞","千發千中"],
+										"psychic":["趕盡殺絕的愉悅","勝利的查克拉"],
+										"elementalist":["衝擊吸收","魅惑無效"],
+									}
+								},
 							},
 							{
 								"race":'破壞神',
@@ -69,6 +93,17 @@ var demon_data = new Vue({
 								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
 								'id':12,
 								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
+								'skill':{
+									//固有技
+									'origin':['冰凍強化(可繼承)','布芙達因','絕對零度'],
+									'type':{
+										'common':["利卡姆"],
+										"aragami":["瑪哈布芙達因","破魔耐性"],
+										"protector":["審判","瑪哈颯"],
+										"psychic":["詛咒無效","布芙"],
+										"elementalist":["冰凍反射","凌亂綻放"],
+									}
+								},
 							},
 							{
 								"race":'破壞神',
@@ -286,28 +321,22 @@ var demon_data = new Vue({
 			},
 			
 		},
-		"race_list":function(){
-			    var bbb = new Object(3);
+		"race_list":function(){//以種族為依據做分類
+			    var obj = new Object(this.allRace.length);
 				for(var i=0;i<this.demonFilterList.demonFilter.length;i++){
 					 var race = this.demonFilterList.demonFilter[i].race;
-					 var name = this.demonFilterList.demonFilter[i].name;
-					 var img = this.demonFilterList.demonFilter[i].img;
-					 var resist = this.demonFilterList.demonFilter[i].resist;
-					 var id = this.demonFilterList.demonFilter[i].id;
-					 var resistArray = this.demonFilterList.demonFilter[i].resistArray;
-					 var status = this.demonFilterList.demonFilter[i].status;
-					 var robj = {
-					 				"name":name,
-					 				"img":img,
-					 				"resist":resist,
-					 				"id":id,
-					 				"resistArray":resistArray,
-					 				"status":status
-					 			};
-					if(bbb[race] == undefined){bbb[race] = [];}
-					bbb[race].push(robj);
+					 
+					if(obj[race] != undefined){
+						//如果符合該種族時  push合併到該陣列
+						obj[race].push(this.demonFilterList.demonFilter[i]);
+					}
+					else{
+						//初始建立該種族元素值時  為空陣列
+						obj[race] = [];
+					} 
+					
 				}
-				return bbb;
+				return obj;
 				},
 		// "demon_select":function(){
 		// 	return this.demon.filter(function(x){

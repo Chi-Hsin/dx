@@ -45,6 +45,7 @@
 				  <div class="row"  v-for='(v,k) in race_list'>
 				  	   <div class="col-sm-12">{{k}}</div>
 				  	  
+				  	    <!-- 惡魔小圖顯示 -->
 				  	   	<div class="col-sm-6">
 				  	   		<div class="row">
 				  	   			<div  v-for='(v1,k1) in v' class="col-sm-6" @click="showDemonInfo(v1)">
@@ -53,23 +54,24 @@
 						    	</div>
 				  	   		</div>
 					   </div>
-					   <!-- 惡魔詳細資訊 -->
-					    <div class="col-sm-3" v-show="DemonInfo.visible" :style="DemonInfo.style.origin">
+					   <!-- 惡魔右側詳細資訊 -->
+					    <div class="col-sm-5" v-show="DemonInfo.visible" :style="DemonInfo.style.origin">
 					    	
 					    	<div class="row">
-					    		<div class="col-sm-6">
+					    		<div class="col-sm-6" :style="DemonInfo.style.bigPic">
 					    			<!-- 全身圖 -->
 					    			<img :src="DemonInfo.info.img" alt="大圖" :style="DemonInfo.style.pic">
 					    		</div>
 					    		<div class="col-sm-6">
 					    			<!-- 能力數值條 -->
-					    			<div v-for="(v,k) in statusKeys">{{v}}：{{DemonInfo.info.status[v]}}
+					    			<div  v-for="(v,k) in statusKeys">{{v}}：{{DemonInfo.info.status[v]}}
 					    				<div class="progress" :style="progressBarStyle">
 										    <div class="progress-bar" :style="statusBarStyle[k]"></div>
 										    
-										 </div>
-										 
+										</div>
 					    			</div>
+					    			<!-- 能力分析雷達圖 -->
+					    			<img class="row" src="img/statAnal.jpg" alt="" :style="DemonInfo.style.statAnal">
 					    		</div>
 					    	</div>
 
