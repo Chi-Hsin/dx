@@ -74,34 +74,7 @@ var VueSelection = new Vue({
 		// 		e.stopPropagation();
 		// 	}
 		// },
-		// add_race:function(e){
-		// 	var index = this.race.filterTagName.indexOf(e.target.innerText);
-		// 	if(index != -1){return;}
-		// 	this.race.filterTagName.push(e.target.innerText);
-		// },
-		// dropdown_race:function(e){
-		// 	this.dropDown_preventDefault(e);
-		// 	this.add_race(e);
-		// },
-		// CloseFilterTag_race:function(e){
-		// 	var index = this.race.DropDownName.indexOf(e.target.innerText.trim());
-		// 	this.race.filterTagName.splice(index,1);
-		// },
-		add_resist:function(e){
-			// this.resist.filterTagName.push(e.target.value);
-				// var aaa = demon_data.demon.map(function(v){
-				//    return v['resist'];
-				// })
-				// var bbb = aaa.map(function(v){
-				// 	return Object.keys(v).map(function(v2){
-				// 		return v2+v[v2]
-				// 	})
-				// });
-				// if(demon_data.filterCount == 0){
-				// 	demon_data.demonFilterList = demon_data.demon;
-				// 	demon_data.filterCount += 1;
-				// }
-
+		add_resist:function(e){//做抗性勾選同時  篩選顯示出具有該抗性的惡魔
 
 				if(!e.target.checked){
 					var index = this.resist.filterTagName.indexOf(e.target.value);
@@ -113,10 +86,17 @@ var VueSelection = new Vue({
 
 				
 
-				demon_data.demonFilterList = demon_data.demon.filter(function(x){
-					return x.resistArray.some(function(v,i){
-						return VueSelection.resist.filterTagName.includes(v) || 
-							   VueSelection.resist.filterTagName.length == 0
+				demon_data.demonFilterList = demon_data.demon.filter(function(v){
+
+					return Object.keys(v.resist)//先取得抗性的Key值
+								 .map(function(v2){return v2+v.resist[v2];})//依照這個陣列去形成抗性的陣列
+								 .some(function(v3){//利用some函式的特性  只要符合以下三種情況就篩選出
+								 	//1.抗性表
+								 	//2.防魔的抗性特性
+								 	//3.所有抗性都不勾選時
+									return   VueSelection.resist.filterTagName.includes(v3) 
+										   ||VueSelection.resist.filterTagName.includes(v.skill.type.elementalist.wakeShort)
+										   ||VueSelection.resist.filterTagName.length == 0
 					})
 				});
 				// console.log(demon_data.demonFilterList.demonFilter);
@@ -125,15 +105,6 @@ var VueSelection = new Vue({
 
 			
 		},
-		// dropdown_resist:function(e){
-		// 	this.dropDown_preventDefault(e);
-		// 	this.add_resist(e);
-		// },
-		// CloseFilterTag_resist:function(e){
-		// 	var index = this.resist.DropDownName.indexOf(e.target.innerText.trim());
-		// 	this.resist.filterTagName.splice(index,1);
-		// },
-
 		}
 })
 

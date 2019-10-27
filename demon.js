@@ -12,6 +12,20 @@ var demon_data = new Vue({
 					'resistArray':[],
 					'id':null,
 					"status":{},
+					'skill':{
+							'origin':{
+										'first':'',
+										'second':'',
+										'third':''
+									  },
+							'type':{
+										'common':[],
+										"aragami":[],
+										"protector":[],
+										"psychic":[],
+										"elementalist":[],
+									}
+							},
 					},
 			'visible':false,		
 			'style':{
@@ -61,19 +75,22 @@ var demon_data = new Vue({
 											'破':'無',
 											'咒':'耐'
 										},
-								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
 								'id':1,
 								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
 								'skill':{
 									//固有技
-									'origin':['虐殺者(可繼承)','大自在天','第三隻眼'],
+									'origin':{
+												'first':'虐殺者(可繼承)',
+												'second':'大自在天',
+												'third':'第三隻眼'
+											},
 									//各原體技
 									'type':{
-										'common':["-"],
-										"aragami":["靈魂抽取","魔封無效"],
-										"protector":["迅捷演舞","千發千中"],
-										"psychic":["趕盡殺絕的愉悅","勝利的查克拉"],
-										"elementalist":["衝擊吸收","魅惑無效"],
+										'common':{'wake':"-","summon":"-"},
+										"aragami":{'wake':"靈魂抽取","summon":"魔封無效"},
+										"protector":{'wake':"迅捷演舞","summon":"千發千中"},
+										"psychic":{'wake':"趕盡殺絕的愉悅","summon":"勝利的查克拉"},
+										"elementalist":{'wake':"衝擊吸收","summon":"魅惑無效",'wakeShort':'衝吸'},
 									}
 								},
 							},
@@ -90,190 +107,23 @@ var demon_data = new Vue({
 											'破':'-',
 											'咒':'耐'
 										},
-								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
 								'id':12,
 								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
 								'skill':{
 									//固有技
-									'origin':['冰凍強化(可繼承)','布芙達因','絕對零度'],
+									'origin':{
+												'first':'冰凍強化(可繼承)',
+												'second':'布芙達因',
+												'third':'絕對零度'
+											},
 									'type':{
-										'common':["利卡姆"],
-										"aragami":["瑪哈布芙達因","破魔耐性"],
-										"protector":["審判","瑪哈颯"],
-										"psychic":["詛咒無效","布芙"],
-										"elementalist":["冰凍反射","凌亂綻放"],
+										'common':{'wake':"利卡姆","summon":"-"},
+										"aragami":{'wake':"瑪哈布芙達因","summon":"破魔耐性"},
+										"protector":{'wake':"審判","summon":"瑪哈颯"},
+										"psychic":{'wake':"詛咒無效","summon":"布芙"},
+										"elementalist":{'wake':"冰凍反射","summon":"凌亂綻放",'wakeShort':'冰反'},
 									}
 								},
-							},
-							{
-								"race":'破壞神',
-								"name":"濕婆(異)",
-								"img":"img/224.jpg",
-								'resist':{	
-											'物':'無',
-											'火':'-',
-											'冰':'-',
-											'電':'吸',
-											'衝':'反',
-											'破':'無',
-											'咒':'耐'
-										},
-								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
-								'id':1,
-								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
-							},
-							{
-								"race":'破壞神',
-								"name":"北斗星君",
-								"img":"img/110.jpg",
-								'resist':{	
-											'物':'耐',
-											'火':'吸',
-											'冰':'吸',
-											'電':'吸',
-											'衝':'-',
-											'破':'-',
-											'咒':'耐'
-										},
-								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
-								'id':12,
-								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
-							},
-							{
-								"race":'破壞神',
-								"name":"濕婆(異)",
-								"img":"img/224.jpg",
-								'resist':{	
-											'物':'無',
-											'火':'-',
-											'冰':'-',
-											'電':'吸',
-											'衝':'反',
-											'破':'無',
-											'咒':'耐'
-										},
-								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
-								'id':1,
-								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
-							},
-							{
-								"race":'破壞神',
-								"name":"北斗星君",
-								"img":"img/110.jpg",
-								'resist':{	
-											'物':'耐',
-											'火':'吸',
-											'冰':'吸',
-											'電':'吸',
-											'衝':'-',
-											'破':'-',
-											'咒':'耐'
-										},
-								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
-								'id':12,
-								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
-							},
-							{
-								"race":'破壞神',
-								"name":"濕婆(異)",
-								"img":"img/224.jpg",
-								'resist':{	
-											'物':'無',
-											'火':'-',
-											'冰':'-',
-											'電':'吸',
-											'衝':'反',
-											'破':'無',
-											'咒':'耐'
-										},
-								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
-								'id':1,
-								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
-							},
-							{
-								"race":'破壞神',
-								"name":"北斗星君",
-								"img":"img/110.jpg",
-								'resist':{	
-											'物':'耐',
-											'火':'吸',
-											'冰':'吸',
-											'電':'吸',
-											'衝':'-',
-											'破':'-',
-											'咒':'耐'
-										},
-								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
-								'id':12,
-								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
-							},
-							{
-								"race":'破壞神',
-								"name":"濕婆(異)",
-								"img":"img/224.jpg",
-								'resist':{	
-											'物':'無',
-											'火':'-',
-											'冰':'-',
-											'電':'吸',
-											'衝':'反',
-											'破':'無',
-											'咒':'耐'
-										},
-								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
-								'id':1,
-								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
-							},
-							{
-								"race":'破壞神',
-								"name":"北斗星君",
-								"img":"img/110.jpg",
-								'resist':{	
-											'物':'耐',
-											'火':'吸',
-											'冰':'吸',
-											'電':'吸',
-											'衝':'-',
-											'破':'-',
-											'咒':'耐'
-										},
-								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
-								'id':12,
-								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
-							},
-							{
-								"race":'破壞神',
-								"name":"濕婆(異)",
-								"img":"img/224.jpg",
-								'resist':{	
-											'物':'無',
-											'火':'-',
-											'冰':'-',
-											'電':'吸',
-											'衝':'反',
-											'破':'無',
-											'咒':'耐'
-										},
-								'resistArray':["物無","火-","冰-","電吸","衝反","破無","咒耐"],
-								'id':1,
-								"status":{"力":111,"魔":256,"體":89,"速":200,"運":55},
-							},
-							{
-								"race":'破壞神',
-								"name":"北斗星君",
-								"img":"img/110.jpg",
-								'resist':{	
-											'物':'耐',
-											'火':'吸',
-											'冰':'吸',
-											'電':'吸',
-											'衝':'-',
-											'破':'-',
-											'咒':'耐'
-										},
-								'resistArray':["物耐","火吸","冰吸","電吸","衝-","破-","咒耐"],
-								'id':12,
-								"status":{"力":55,"魔":200,"體":89,"速":222,"運":111},
 							},
 							// {"race":'破壞神',"name":"藏王權現","img":"img/180.jpg",'resist':'物吸','id':13}, 
 							// {"race":'破壞神',"name":"素盞嗚尊","img":"img/142.jpg",'resist':'物反','id':14}, 
@@ -308,7 +158,10 @@ var demon_data = new Vue({
 
 			document.getElementById("resist" + e.target.getAttribute("data-filterCheck")).click()
 			// alert()
-		}
+		},
+		// "IwantTest":function(){
+		// 	return VueHeader.showScreen("skill")
+		// }
 	},
 	computed:{
 		'demonFilterList':{
@@ -326,36 +179,21 @@ var demon_data = new Vue({
 				for(var i=0;i<this.demonFilterList.demonFilter.length;i++){
 					 var race = this.demonFilterList.demonFilter[i].race;
 					 
-					if(obj[race] != undefined){
-						//如果符合該種族時  push合併到該陣列
-						obj[race].push(this.demonFilterList.demonFilter[i]);
-					}
-					else{
-						//初始建立該種族元素值時  為空陣列
-						obj[race] = [];
-					} 
+					//初始建立該種族元素值時  為空陣列
+					if(obj[race] == undefined){obj[race] = [];}
+					//如果符合該種族時  push合併到該陣列
+					obj[race].push(this.demonFilterList.demonFilter[i]);
+					
 					
 				}
 				return obj;
 				},
-		// "demon_select":function(){
-		// 	return this.demon.filter(function(x){
-		// 		var f1 = VueContent.race.filterTagName;
-		// 		var f2 = VueContent.resist.filterTagName;
-		// 		var condition_race = f1.length == 0 ? true : f1.includes(x.race);
-		// 		var condition_resist = f2.length == 0 ? true : f2.includes(x.resist);
-		// 		return condition_race && condition_resist
-		// 	})
-		// },
 		"statusBarStyle":function(){
 			var status = this.DemonInfo.info.status;
 				
-				return Object.keys(status).map(function(v,i){
-					return {'width':Math.round(status[v]/256*100) + "%",'height':'10px'};
-				})
-			
-			// else{return '';}
-			
+			return Object.keys(status).map(function(v,i){
+				return {'width':Math.round(status[v]/256*100) + "%",'height':'10px'};
+			})
 		},
 		
 	}

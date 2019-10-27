@@ -113,11 +113,13 @@
 							</div>
 							<!--角色技能表格-->
 							<div class="row d-block">
+								<h4><span class="badge badge-primary">固有技</span></h4>
+								<!-- <div v-for="DemonInfo.info.skill.origin"> -->
+									<a href="javascript:;">{{DemonInfo.info.skill.origin.first}}</a><img src="img/type/icon-skill-only.png" alt="">
+									<p><a href="javascript:;">{{DemonInfo.info.skill.origin.second}}</a></p>
+									<p><a href="javascript:;">{{DemonInfo.info.skill.origin.third}}</a></p>
+								<!-- </div> -->
 								
-								<h4><span class="badge badge-primary">特點</span></h4>
-								<a href="javascript:;">怒火燒盡九重天</a><img src="img/type/icon-skill-only.png" alt="">(可繼承技)
-								<p><a href="javascript:;">傾倒玄黃</a></p>
-								<p><a href="javascript:;">逆神訣</a></p>
 								
 								<table class="table table-responsive-sm table-hover table-bordered">
 							    <thead>
@@ -133,8 +135,13 @@
 							        </th>
 							      </tr>
 							    </thead>
-							    <tbody>
-							      <tr>
+							    <tbody v-for="(v,k) in DemonInfo.info.skill.type">
+							    <tr>
+							        <td><img :src="'img/type/'+k+'.jpg'" alt=""></td>
+							        <td><a href="javascript:;">{{v.wake}}</a></td>
+							        <td><a href="javascript:;">{{v.summon}}</a></td>
+							    </tr>	
+							      <!-- <tr>
 							        <td><img src="img/type/common.jpg" alt=""></td>
 							        <td>原則水果玩具信用</td>
 							        <td>方式語言已被</td>
@@ -158,7 +165,7 @@
 							        <td><img src="img/type/elementalist.jpg" alt=""></td>
 							        <td>原則水果玩具信用</td>
 							        <td>方式語言已被</td>
-							      </tr>
+							      </tr> -->
 							    </tbody>
 								</table>
 							</div>
